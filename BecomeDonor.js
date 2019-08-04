@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import {View , Text, Image,TouchableOpacity,StyleSheet,StatusBar,TouchableWithoutFeedback,Alert,Keyboard} from 'react-native'
-import { Container, Header, Body, Right, Left, Title,Content,Item,Input } from 'native-base';
-import { Ionicons } from '@expo/vector-icons';
+import {View , Text, Image,TouchableOpacity,StyleSheet,ScrollView,TouchableWithoutFeedback,Alert,Keyboard,Button} from 'react-native'
+import { Container, Header, Body, Right, Left, Title,Content,Item,Input,Thumbnail } from 'native-base';
 import { LinearGradient } from 'expo';
 import Btn from '../components/btn'
 import { ImagePicker } from 'expo';
@@ -22,7 +21,9 @@ export default class BecomeDonor extends Component {
       gender:'',
       name:'',
       email:'',
-      phone:''
+      phone:'',
+      image:require('../pics/user.png'),
+      url:''
     }
   }
 
@@ -55,13 +56,38 @@ export default class BecomeDonor extends Component {
     ),
     
   };
+
+  
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result,url:result.uri });
+    }
+  };
   
   render() {
+        let { image } = this.state;
+
     return (
         
 
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
               
+          <TouchableWithoutFeedback
+           onPress={this._pickImage}
+          >
+        
+         
+  
+          <Thumbnail source={  image }  style={{height:100,width:100,borderRadius:100,alignSelf:'center',marginTop:10}}/>
+        
+          </TouchableWithoutFeedback>
         <Container>
         <Content>
         <View style={{marginTop:10}}>
@@ -111,7 +137,7 @@ export default class BecomeDonor extends Component {
 
           <Text style={styles.gender}>Select Blood Group</Text>
   
-          <Btn gender={this.state.gender} name={this.state.name} email={this.state.email} phone={this.state.phone}></Btn>
+          <Btn gender={this.state.gender} name={this.state.name} email={this.state.email} phone={this.state.phone} url={this.state.url}></Btn>
 
           
 
@@ -119,7 +145,7 @@ export default class BecomeDonor extends Component {
         </Content>
       </Container>
       
-        </View>
+        </ScrollView>
       )
   }
 }

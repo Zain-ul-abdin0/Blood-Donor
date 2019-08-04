@@ -1,10 +1,11 @@
 import React  from 'react';
 import {StyleSheet,Text,View,StatusBar,ListView,ScrollView,Image,TouchableOpacity} from 'react-native'
-import createStackNavigator from 'react-navigation'
 import Login from './Login'
-export default class Swipee extends React.Component {
 
-  static navigationOptions = { title: 'Welcome', header: null };
+export default class Swipee extends React.Component {
+  static navigationOptions = {
+    header: null,
+    };
 
   render() {
     return (
@@ -32,6 +33,7 @@ export default class Swipee extends React.Component {
 
 
              </ScrollView>
+             
           );
   }
 }

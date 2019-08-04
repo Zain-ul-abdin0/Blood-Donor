@@ -4,32 +4,61 @@ import { LinearGradient } from 'expo';
 import { Container, Header, Content, Item, Input,Button } from 'native-base';
 import Firebase from './firebaseComp'
 import Login from './Login'
-
+import Activity from './Activity'
 export default class SignUp extends Component {                      //Main Class
  
-    static navigationOptions = { title: 'Welcome', header: null };
-    
+  static navigationOptions = {
+    header: null,
+    };
     constructor(props){
       super(props);
       this.state=({
         email:'',
         password:'',
+        isLoading:0
       })
     }
 
-  signUp=(email,password)=>{
-   try {
-     if(this.state.password.length < 6){
-       Alert.alert("Please enter atLeast 6 characters")
-     }
-     else{
-      Firebase.auth().createUserWithEmailAndPassword(email,password)
-     }
+     signUp=(email,password) =>{
+      this.setState({isLoading:1})      
 
-   } catch (error) {
-    
-    console.log(error.toString())
-     }
+       Firebase.auth().createUserWithEmailAndPassword(email, password).then(this.onSuccess.bind(this)).catch(this.onFailure.bind(this))
+  
+}
+onFailure=()=>{
+  Alert.alert("You have entered unacceptable email or password")
+  this.setState({isLoading:0})      
+
+}
+onSuccess=()=>{
+  alert('Your Account has been created');
+  this.setState({isLoading:0})      
+
+}
+
+
+  onButton=()=>{
+  if(this.state.isLoading==1){
+   return (
+     <Activity/>
+   );
+  }
+   else{
+    return(
+      <TouchableOpacity style={{alignItems:'center',marginTop:10}}
+      onPress={()=>this.signUp(this.state.email,this.state.password)}
+      >
+      <LinearGradient
+      colors={['#FF217A', '#FF4D4D']}
+      style={{ padding: 15, alignItems: 'center', borderRadius: 40,width:140,height:50 }}
+      start={{ x: 0, y: 1 }}
+      end={{ x: 1, y: 1 }}
+      >
+        <Text style={styles.btnTxt}>Sign Up</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+   }
   }
 
   render() {
@@ -51,18 +80,9 @@ export default class SignUp extends Component {                      //Main Clas
             onChangeText={(password)=>this.setState({password})}
             />
           </Item>
-          <TouchableOpacity style={{alignItems:'center',marginTop:10}}
-          onPress={()=>this.signUp(this.state.email,this.state.password)}
-          >
-          <LinearGradient
-          colors={['#FF217A', '#FF4D4D']}
-          style={{ padding: 15, alignItems: 'center', borderRadius: 40,width:140,height:50 }}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 1, y: 1 }}
-          >
-            <Text style={styles.btnTxt}>Sign Up</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          {
+          this.onButton()
+          }
           <TouchableOpacity
           onPress={()=>this.props.navigation.navigate('Login')}
           >

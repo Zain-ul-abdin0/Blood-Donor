@@ -188,7 +188,7 @@ export default class SelectBlood extends Component {
          </TouchableWithoutFeedback>
          </View>
          </View>
-        <RequestToFirebase bloodFor={this.props.blood} city={this.props.city} bloodGroup={this.state.bloodGroup}/>
+        <RequestToFirebase bloodFor={this.props.blood} city={this.props.city} bloodGroup={this.state.bloodGroup} phone={this.props.phone} url={this.props.url}/>
            </View>
        
     )

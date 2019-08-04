@@ -189,7 +189,7 @@ export default class Btn extends Component {
          </View>
          </View>
         
-         <DonorToFirebase email={this.props.email} gender={this.props.gender} name={this.props.name} blood={this.state.bloodGroup} phone={this.props.phone}/>
+         <DonorToFirebase email={this.props.email} gender={this.props.gender} name={this.props.name} blood={this.state.bloodGroup} phone={this.props.phone}  url={this.props.url}/>
        </View>
        
     )
